@@ -42,5 +42,5 @@ phải lỗi mà chính là cơ chế chống leakage đang hoạt động.
 
 ## Bonus challenge
 
-- [ ] Đã làm bonus (xem `bonus/`)
-- [ ] Pair work với: _<tên đồng đội nếu có>_
+- [x] Đã làm bonus (xem `bonus/`) — `ARCHITECTURE.md`, `agent.py`, `demo.py`
+- [ ] Pair work với: _(làm một mình)_
