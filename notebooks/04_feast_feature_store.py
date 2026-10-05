@@ -183,9 +183,12 @@ else:
 
 # %%
 import pandas as pd
+# Mỗi event_timestamp phải >= thời điểm feature của user đó được ghi
+# (u_001 @ NOW-1h, u_002 @ NOW-2h, u_003 @ NOW-3h). Nếu hỏi u_001 tại NOW-2h,
+# PIT join đúng ra sẽ không có giá trị (không được dùng dữ liệu tương lai) → mất dòng.
 entity_df = pd.DataFrame({
     "user_id": ["u_001", "u_002", "u_003"],
-    "event_timestamp": [NOW - timedelta(hours=2), NOW - timedelta(hours=1), NOW],
+    "event_timestamp": [NOW, NOW - timedelta(hours=1), NOW - timedelta(hours=2)],
 })
 
 historical = fs.get_historical_features(
