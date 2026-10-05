@@ -116,6 +116,11 @@ for th in (0.60, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95):
 # > hằng số để copy. Phân bố query của bạn quyết định con số cuối cùng.
 
 # %% [markdown]
+# ### ✍️ Trả lời: chọn ngưỡng nào, và vì sao 0.75 chưa đủ?
+#
+# Tôi chọn ngưỡng **0.85**: vẫn tiết kiệm **100%** câu hỏi lặp lại, và tỉ lệ trả lời sai về **0%**. Ở **0.75** (con số AWS công bố), tiết kiệm cũng 100% nhưng **35%** câu hỏi *khác nghĩa* bị cache trả nhầm câu trả lời cũ. Tức là cứ khoảng 3 lần dùng cache thì có 1 lần người dùng nhận câu trả lời sai mà không hề biết. Ngưỡng 0.75 chưa đủ vì nó được đo trên dữ liệu và model của AWS. Ở corpus này, model `bge-small-en` phân biệt câu tiếng Việt kém, nên hai câu khác chủ đề vẫn có độ giống cao. Ngược lại, 0.95 an toàn nhưng chỉ còn tiết kiệm 53%. Với semantic cache, **một câu trả lời sai đắt hơn nhiều so với một lần gọi LLM**, nên tôi ưu tiên tỉ lệ sai bằng 0, rồi mới tối đa hoá phần tiết kiệm. Ngưỡng phải được đo lại khi đổi model embedding hoặc dữ liệu.
+
+# %% [markdown]
 # ## 3. TTL: câu trả lời cũ không tự biết mình cũ
 #
 # `SemanticCache` dùng **đồng hồ ảo** (`advance()`) nên ta test được TTL mà không

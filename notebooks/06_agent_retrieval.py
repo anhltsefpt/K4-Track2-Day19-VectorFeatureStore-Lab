@@ -123,6 +123,11 @@ print(f"\nΔ recall vs single-shot:  tách câu {split - base:+.3f}   tách + fi
 # NB5 lặp lại ở tầng agent: **filter không miễn phí, phải đo chứ đừng đoán.**
 
 # %% [markdown]
+# ### ✍️ Trả lời: vì sao `agentic (+filter)` thấp hơn `agentic (no filter)`?
+#
+# Ở cùng ngân sách 16 doc, `agentic (+filter)` đạt recall **0.823 / balance 0.76**, thấp hơn `agentic (no filter)` (**0.906 / 0.93**), lại chậm gấp đôi (19.8 ms so với 10.4 ms). Nguyên nhân là planner **đoán topic từ từ khóa** trong từng câu hỏi con, rồi dùng nó làm **bộ lọc cứng** khi tìm. Nếu đoán sai, hoặc tài liệu liên quan nằm ở cụm topic lân cận (ví dụ "cân bằng tải" có thể thuộc `networking` lẫn `cloud`), bộ lọc loại luôn các tài liệu đúng trước khi xếp hạng, và không có cách nào lấy lại. Một câu hỏi con mất tài liệu thì `balance` giữa hai vế cũng giảm theo. Không lọc thì xếp hạng vector vẫn đưa được tài liệu đúng lên. Đây là bài học NB5 lặp lại ở tầng agent: **filter không miễn phí**, chỉ nên áp dụng khi chắc chắn (ví dụ quyền truy cập, tenant), còn filter suy đoán phải đo trước khi bật.
+
+# %% [markdown]
 # ## 4. Reflection: filter tồi còn tệ hơn không filter
 #
 # `Agent` thử lại **một lần** với filter được nới ra khi một call trả về quá ít
